@@ -29,7 +29,7 @@ This repository is a collection of practical tasks I work through while learning
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/adhamgamal22/<repo-name>.git
+git clone https://github.com/adhamgamal22/<https://github.com/adhamgamal22/docker-devops-labs.git>.git
 
 # 2. Move into the repository
 cd <repo-name>
