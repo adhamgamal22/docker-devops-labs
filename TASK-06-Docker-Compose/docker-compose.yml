@@ -1,0 +1,83 @@
+services:
+
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    ports:
+      - "80:80"
+
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+
+    depends_on:
+      backend:
+        condition: service_healthy
+
+    networks:
+      - app-network
+
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+
+    container_name: backend
+
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - DB_HOST=${DB_HOST}
+
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "python -c 'import urllib.request; urllib.request.urlopen(\"http://localhost:5000/api/health\")'"
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+    networks:
+      - app-network
+
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: postgres
+
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+    networks:
+      - app-network
+
+
+volumes:
+  postgres_data:
+
+
+networks:
+  app-network:
+    driver: bridge
