@@ -54,7 +54,6 @@ Found an issue or have a suggestion? Feel free to open an [issue](../../issues) 
 
 **Adham Gamal** 
 
-[![GitHub](https://img.shields.io/badge/GitHub-adhamgamal22-181717?style=flat&logo=github)](https://github.com/adhamgamal22)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-adhamgamal74-0A66C2?style=flat&logo=linkedin&logoColor=white)](https://linkedin.com/in/adhamgamal74)
 
 ---
